@@ -49,7 +49,8 @@ class ImportViewModel extends ChangeNotifier{
   }
 
   Future<CsvImportStatus> convertCsv(File file) async {
-    if(_lastProcessedFilePath == file.path && _cursistas.isNotEmpty) return CsvImportStatus.success;
+    if(_lastProcessedFilePath == file.path && _cursistas.isNotEmpty) return CsvImportStatus.alreadyProcessed;
+;
     _isLoading = true;
     notifyListeners();
 
@@ -93,5 +94,6 @@ class ImportViewModel extends ChangeNotifier{
 enum CsvImportStatus{
   success,
   cancelled,
-  error
+  error,
+  alreadyProcessed
 }
