@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -35,7 +34,7 @@ class AuthView extends StatelessWidget {
               welcomeWidget(),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-                width: MediaQuery.of(context).size.width,
+                width: double.infinity,
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -129,7 +128,7 @@ class AuthView extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20,),
-                width: MediaQuery.of(context).size.width,
+                width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
