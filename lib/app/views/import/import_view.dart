@@ -57,12 +57,18 @@ class ImportView extends StatelessWidget {
                   return CsvFileSelectorWidget(
                     fileName: fileName, 
                     onSelectFile: () async {
-                      final status = await context.read<ImportViewModel>().uploadCsvFile();
+                      final vm = context.read<ImportViewModel>();
+                      final status = await vm.uploadCsvFile();
+                      if (!context.mounted) return; // aqui protege
+
                       if (status == CsvImportStatus.success){
                         snackbarWidget("Dados carregados com sucesso", context);
                       } else if (status == CsvImportStatus.cancelled){
                         snackbarWidget("Seleção de arquivo cancelada", context);
-                      } 
+                      } else {
+                        snackbarWidget("Erro ao importar o arquivo CSV: ${vm.errorMessage}", context);
+                        vm.clearError();
+                      }
                     }
                   );
                 }
@@ -131,7 +137,6 @@ class ImportView extends StatelessWidget {
                   }
                 ),
 
-             
             ],
           ),
         ),

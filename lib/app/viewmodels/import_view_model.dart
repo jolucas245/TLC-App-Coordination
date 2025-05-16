@@ -35,9 +35,9 @@ class ImportViewModel extends ChangeNotifier{
       _errorMessage = null;
       _selectedFile = file;
 
-      await convertCsv(file);
-      notifyListeners();
-      return CsvImportStatus.success;
+      final resultStatus = await convertCsv(file);
+      // notifyListeners();
+      return resultStatus;
     } else {
       return CsvImportStatus.cancelled;
     }
@@ -48,8 +48,8 @@ class ImportViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> convertCsv(File file) async {
-    if(_lastProcessedFilePath == file.path && _cursistas.isNotEmpty) return;
+  Future<CsvImportStatus> convertCsv(File file) async {
+    if(_lastProcessedFilePath == file.path && _cursistas.isNotEmpty) return CsvImportStatus.success;
     _isLoading = true;
     notifyListeners();
 
@@ -77,12 +77,15 @@ class ImportViewModel extends ChangeNotifier{
 
       _cursistas = mapped;
       _lastProcessedFilePath = file.path;
+      return CsvImportStatus.success;
     } catch (e){
-      _errorMessage = "Erro ao importar o CSV: ${e.toString()}";
+      _errorMessage = e.toString();
+      return CsvImportStatus.error;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
 
-    _isLoading = false;
-    notifyListeners();
   }
 
 }
@@ -90,4 +93,5 @@ class ImportViewModel extends ChangeNotifier{
 enum CsvImportStatus{
   success,
   cancelled,
+  error
 }
