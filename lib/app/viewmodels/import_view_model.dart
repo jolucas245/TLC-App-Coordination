@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/widgets.dart';
@@ -8,7 +10,7 @@ import 'package:tlc/app/models/cursista_model.dart';
 class ImportViewModel extends ChangeNotifier{
   bool _isFilePicked = false;
   String? _fileName;
-  String? _lastProcessedFilePath;
+  String? _lastFileHash;
   String? _errorMessage;
   List<CursistaModel> _cursistas = [];
   bool _isLoading = false;
@@ -34,7 +36,7 @@ class ImportViewModel extends ChangeNotifier{
       _fileName = result.files.first.name;
       _errorMessage = null;
       _selectedFile = file;
-
+      
       final resultStatus = await convertCsv(file);
       // notifyListeners();
       return resultStatus;
@@ -49,12 +51,17 @@ class ImportViewModel extends ChangeNotifier{
   }
 
   Future<CsvImportStatus> convertCsv(File file) async {
-    if(_lastProcessedFilePath == file.path && _cursistas.isNotEmpty) return CsvImportStatus.success;
     _isLoading = true;
     notifyListeners();
 
     try{
       final content = await file.readAsString();
+
+      final hash = md5.convert(utf8.encode(content)).toString();
+      debugPrint(hash);
+      if(_lastFileHash == hash && _cursistas.isNotEmpty) return CsvImportStatus.alreadyProcessed;
+
+      _lastFileHash = hash;
 
       final rows = const CsvToListConverter(
         fieldDelimiter: ';',
@@ -76,7 +83,6 @@ class ImportViewModel extends ChangeNotifier{
       }).toList();
 
       _cursistas = mapped;
-      _lastProcessedFilePath = file.path;
       return CsvImportStatus.success;
     } catch (e){
       _errorMessage = e.toString();
@@ -93,5 +99,6 @@ class ImportViewModel extends ChangeNotifier{
 enum CsvImportStatus{
   success,
   cancelled,
-  error
+  error,
+  alreadyProcessed
 }

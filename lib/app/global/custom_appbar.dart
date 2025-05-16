@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tlc/app/global/colors.dart';
 
@@ -6,11 +7,13 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget{
   
   final String title;
   final String? page;
+  final AdvancedDrawerController? controller;
   
   const CustomAppbar({
     super.key,
     required this.title,
-    this.page
+    this.page,
+    this.controller
   });
 
   @override
@@ -33,9 +36,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget{
       ) 
       : Builder(
         builder: (context) => IconButton(
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
+          onPressed: () => controller?.showDrawer(),
           icon: Icon(Icons.menu_rounded, color: Colors.white),
         ),
       ),
