@@ -59,7 +59,7 @@ class ImportView extends StatelessWidget {
                     onSelectFile: () async {
                       final vm = context.read<ImportViewModel>();
                       final status = await vm.uploadCsvFile();
-                      if (!context.mounted) return; // aqui protege
+                      if (!context.mounted) return;
 
                       if (status == CsvImportStatus.success){
                         snackbarWidget("Dados carregados com sucesso", context);
