@@ -5,7 +5,7 @@ class PreviewDataViewModel extends ChangeNotifier{
   int? _selectedIndex;
 
   double get zoom => _zoom;
-  int? get seletecIndex => _selectedIndex;
+  int? get seletectIndex => _selectedIndex;
 
   void setZoom(double value){
     _zoom = value;
@@ -13,7 +13,7 @@ class PreviewDataViewModel extends ChangeNotifier{
   }
 
   void selectRow(int index){
-    _selectedIndex = index;
+    _selectedIndex != index ? _selectedIndex = index : _selectedIndex = null;
     notifyListeners();
   }
 }

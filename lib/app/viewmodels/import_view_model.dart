@@ -58,7 +58,6 @@ class ImportViewModel extends ChangeNotifier{
       final content = await file.readAsString();
 
       final hash = md5.convert(utf8.encode(content)).toString();
-      debugPrint(hash);
       if(_lastFileHash == hash && _cursistas.isNotEmpty) return CsvImportStatus.alreadyProcessed;
 
       _lastFileHash = hash;

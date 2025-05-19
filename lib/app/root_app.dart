@@ -16,7 +16,7 @@ class RootApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             surfaceTintColor: Colors.transparent
           ),
-          textTheme: GoogleFonts.interTextTheme(
+          textTheme: GoogleFonts.latoTextTheme(
             Theme.of(context).textTheme
           )
         ),
