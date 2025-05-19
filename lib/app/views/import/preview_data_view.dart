@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tlc/app/global/custom_scaffold.dart';
-import 'package:tlc/app/views/import/widgets/custom_data_cell_widget.dart';
 
 import '../../global/colors.dart';
-import '../../global/custom_appbar.dart';
+import '../../global/custom_scaffold.dart';
 import '../../models/cursista_model.dart';
 import '../../viewmodels/preview_data_view_model.dart';
+import 'widgets/custom_data_cell_widget.dart';
 import 'widgets/custom_data_column.dart';
 
 class PreviewDataView extends StatelessWidget {
@@ -67,7 +66,7 @@ class PreviewDataView extends StatelessWidget {
                         customDataColumnWidget(labelText: 'Carimbo')
                       ],
                       rows: List.generate(cursistas.length, (index){
-                        final isSelected = vm.seletecIndex == index;
+                        final isSelected = vm.seletectIndex == index;
 
                         return DataRow(
                           color: WidgetStateProperty.resolveWith<Color?>(
@@ -78,28 +77,6 @@ class PreviewDataView extends StatelessWidget {
                           cells: cursistas[index].toMap().values.map((value) => customDataCellWidget(value.toString(), vm.zoom, ()=>vm.selectRow(index))).toList(),
                         );
                       }),
-                      // rows: cursistas.map((c) {
-                      //   return DataRow(
-                      //     cells: [
-                      //       DataCell(Text(c.nomeCompleto, style: TextStyle(fontSize: 14 * vm.zoom),),),
-                      //       DataCell(Text(c.dataNascimento, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.telefone, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.enderecoResidencial, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.cidade, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.nomeMae, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.nomePai, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.telefonePais, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.enderecoPais, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.problemaSaude, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.batizado, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.primeiraComunhao, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.crismado, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.tamanhoCamiseta, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.instagram, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //       DataCell(Text(c.carimboDataHora, style: TextStyle(fontSize: 14 * vm.zoom),)),
-                      //     ],
-                      //   );
-                      // }).toList(),
                     ),
                   ),
                 ),

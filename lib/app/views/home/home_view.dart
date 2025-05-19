@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tlc/app/global/custom_appbar.dart';
+import 'package:tlc/app/global/custom_scaffold.dart';
 import 'package:tlc/app/viewmodels/home_view_model.dart';
 import 'package:tlc/app/views/home/widgets/search_widget.dart';
 
@@ -9,12 +9,8 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffF9FAFB),
-      appBar: CustomAppbar(
-        title: "Cursistas",
-      ),
-      drawer: Drawer(),
+    return CustomScaffold(
+      title: "Cursistas",
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10),
         child: Column(

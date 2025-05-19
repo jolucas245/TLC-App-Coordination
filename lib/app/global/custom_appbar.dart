@@ -24,7 +24,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget{
       shadowColor: Colors.grey[100],
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold
         ), 
@@ -36,7 +36,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget{
       ) 
       : Builder(
         builder: (context) => IconButton(
-          onPressed: () => controller?.showDrawer(),
+          onPressed: () => controller!.showDrawer(),
           icon: Icon(Icons.menu_rounded, color: Colors.white),
         ),
       ),

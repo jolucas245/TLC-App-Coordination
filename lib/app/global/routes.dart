@@ -1,16 +1,18 @@
-
 import 'package:go_router/go_router.dart';
-import 'package:tlc/app/models/cursista_model.dart';
-import 'package:tlc/app/views/import/preview_data_view.dart';
+import 'package:go_transitions/go_transitions.dart';
+import 'package:tlc/app/views/coordination/coordination_view.dart';
+import 'package:tlc/app/views/settings/setings_view.dart';
 
+import '../models/cursista_model.dart';
 import '../views/auth/auth_view.dart';
 import '../views/home/home_view.dart';
 import '../views/import/import_view.dart';
+import '../views/import/preview_data_view.dart';
 import '../views/splash/splash_view.dart';
 
 class AppRoutes {
   static final GoRouter router = GoRouter(
-    initialLocation: '/import',
+    initialLocation: '/home',
     routes: [
       GoRoute(
         path: '/',
@@ -24,12 +26,14 @@ class AppRoutes {
       ),
       GoRoute(
         path: "/home",
-        builder: (context, state) => HomeView(),
+        builder: (context, state) => const HomeView(),
+        pageBuilder: GoTransitions.slide.toLeft.call,
         name: "HomeView"
       ),
       GoRoute(
         path: "/import",
-        builder: (context, state) => ImportView(),
+        pageBuilder: GoTransitions.slide.toLeft.call,
+        builder: (context, state) => const ImportView(),
         name: "ImportView"
       ),
       GoRoute(
@@ -39,6 +43,18 @@ class AppRoutes {
           return PreviewDataView(cursistas: cursistas ?? []);
         },
         name: "PreviewDataView"
+      ),
+      GoRoute(
+        path: "/coordination",
+        pageBuilder: GoTransitions.slide.toLeft.call,
+        builder: (context, state) => const CoordinationView(),
+        name: "CoordinationView"
+      ),
+      GoRoute(
+        path: "/settings",
+        pageBuilder: GoTransitions.slide.toLeft.call,
+        builder: (context, state) => const SettingsView(),
+        name: "SettingsView"
       ),
     ]
   );
