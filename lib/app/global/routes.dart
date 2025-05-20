@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:go_transitions/go_transitions.dart';
 import 'package:tlc/app/views/coordination/coordination_view.dart';
-import 'package:tlc/app/views/settings/setings_view.dart';
+import 'package:tlc/app/views/settings/settings_view.dart';
 
 import '../models/cursista_model.dart';
 import '../views/auth/auth_view.dart';
