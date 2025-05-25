@@ -92,8 +92,8 @@ import 'widgets/csv_file_selector_widget.dart';
                           : () async {
                               final vm = context.read<ImportViewModel>();
                               if (vm.selectedFile != null) {
-                                if (vm.errorMessage == null && vm.cursistas.isNotEmpty) {
-                                  context.push('/preview', extra: vm.cursistas);
+                                if (vm.errorMessage == null && vm.cursistas.isNotEmpty) {                       
+                                  context.push('/preview', extra: vm.tableData);
                                 }
                               }
                             },

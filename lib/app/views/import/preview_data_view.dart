@@ -3,15 +3,14 @@ import 'package:provider/provider.dart';
 
 import '../../global/colors.dart';
 import '../../global/custom_scaffold.dart';
-import '../../models/cursista_model.dart';
 import '../../viewmodels/preview_data_view_model.dart';
-import 'widgets/custom_data_cell_widget.dart';
 import 'widgets/custom_data_column.dart';
+import 'widgets/custom_data_cell_widget.dart';
 
 class PreviewDataView extends StatelessWidget {
-  final List<CursistaModel> cursistas;
+  final List<List<String>> tableData;
 
-  const PreviewDataView({super.key, required this.cursistas});
+  const PreviewDataView({super.key, required this.tableData});
 
   @override
   Widget build(BuildContext context) {
@@ -30,61 +29,77 @@ class PreviewDataView extends StatelessWidget {
                     Expanded(
                       child: Slider(
                         activeColor: AppColors.DARK_BROWN,
-                        value: vm.zoom, 
+                        value: vm.zoom,
                         min: 0.6,
                         max: 1.0,
                         divisions: 5,
                         label: "${(vm.zoom * 100).toInt()}",
-                        onChanged: (value) => vm.setZoom(value)
-                      )
+                        onChanged: (value) => vm.setZoom(value),
+                      ),
                     )
                   ],
                 ),
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      columns: [
-                        customDataColumnWidget(labelText: 'Nome'),
-                        customDataColumnWidget(labelText: 'Data de Nascimento'),
-                        customDataColumnWidget(labelText: 'Telefone'),
-                        customDataColumnWidget(labelText: 'Endereço'),
-                        customDataColumnWidget(labelText: 'Cidade'),
-                        customDataColumnWidget(labelText: 'Nome da Mãe'),
-                        customDataColumnWidget(labelText: 'Nome do Pai'),
-                        customDataColumnWidget(labelText: 'Telefone dos Pais'),
-                        customDataColumnWidget(labelText: 'Endereço dos Pais'),
-                        customDataColumnWidget(labelText: 'Problema de Saúde'),
-                        customDataColumnWidget(labelText: 'Batizado',),
-                        customDataColumnWidget(labelText: 'Primeira Comunão'),
-                        customDataColumnWidget(labelText: 'Crismado'),
-                        customDataColumnWidget(labelText: 'Tamanho da Camiseta'),
-                        customDataColumnWidget(labelText: 'Instagram'),
-                        customDataColumnWidget(labelText: 'Carimbo')
-                      ],
-                      rows: List.generate(cursistas.length, (index){
-                        final isSelected = vm.seletectIndex == index;
-
-                        return DataRow(
-                          color: WidgetStateProperty.resolveWith<Color?>(
-                            (Set<WidgetState> states){
-                              return isSelected ? Colors.orange.shade100 : null;
-                            }
-                          ),
-                          cells: cursistas[index].toMap().values.map((value) => customDataCellWidget(value.toString(), vm.zoom, ()=>vm.selectRow(index))).toList(),
-                        );
-                      }),
-                    ),
-                  ),
+                child: PaginatedDataTable(
+                  columns: [
+                    customDataColumnWidget(labelText: 'Nome'),
+                    customDataColumnWidget(labelText: 'Data de Nascimento'),
+                    customDataColumnWidget(labelText: 'Telefone'),
+                    customDataColumnWidget(labelText: 'Endereço'),
+                    customDataColumnWidget(labelText: 'Cidade'),
+                    customDataColumnWidget(labelText: 'Nome da Mãe'),
+                    customDataColumnWidget(labelText: 'Nome do Pai'),
+                    customDataColumnWidget(labelText: 'Telefone dos Pais'),
+                    customDataColumnWidget(labelText: 'Endereço dos Pais'),
+                    customDataColumnWidget(labelText: 'Problema de Saúde'),
+                    customDataColumnWidget(labelText: 'Batizado'),
+                    customDataColumnWidget(labelText: 'Primeira Comunão'),
+                    customDataColumnWidget(labelText: 'Crismado'),
+                    customDataColumnWidget(labelText: 'Tamanho da Camiseta'),
+                    customDataColumnWidget(labelText: 'Instagram'),
+                    customDataColumnWidget(labelText: 'Carimbo'),
+                  ],
+                  source: _PreviewDataSource(tableData, vm.zoom, vm),
+                  rowsPerPage: 10,
+                  columnSpacing: 20,
                 ),
               ),
             ],
           ),
         );
-      }
+      },
     );
   }
+}
+
+class _PreviewDataSource extends DataTableSource {
+  final List<List<String>> tableData;
+  final double zoom;
+  final PreviewDataViewModel vm;
+
+  _PreviewDataSource(this.tableData, this.zoom, this.vm);
+
+  @override
+  DataRow getRow(int index) {
+    final row = tableData[index];
+    final isSelected = vm.seletectIndex == index;
+
+    return DataRow.byIndex(
+      index: index,
+      color: WidgetStateProperty.resolveWith<Color?>(
+        (states) => isSelected ? Colors.orange.shade100 : null,
+      ),
+      cells: row
+          .map((value) => customDataCellWidget(value, zoom, () => vm.selectRow(index)))
+          .toList(),
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+  @override
+  int get rowCount => tableData.length;
+  @override
+  int get selectedRowCount => 0;
 }

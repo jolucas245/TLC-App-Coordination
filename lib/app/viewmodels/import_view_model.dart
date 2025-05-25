@@ -13,6 +13,7 @@ class ImportViewModel extends ChangeNotifier{
   String? _lastFileHash;
   String? _errorMessage;
   List<CursistaModel> _cursistas = [];
+  List<List<String>> _tableData = [];
   bool _isLoading = false;
   File? _selectedFile;
   
@@ -20,6 +21,7 @@ class ImportViewModel extends ChangeNotifier{
   String? get fileName => _fileName;
   String? get errorMessage => _errorMessage;
   List<CursistaModel> get cursistas => _cursistas;
+  List<List<String>> get tableData => _tableData;
   bool get isLoading => _isLoading;
   File? get selectedFile => _selectedFile;
   
@@ -38,7 +40,6 @@ class ImportViewModel extends ChangeNotifier{
       _selectedFile = file;
       
       final resultStatus = await convertCsv(file);
-      // notifyListeners();
       return resultStatus;
     } else {
       return CsvImportStatus.cancelled;
@@ -82,6 +83,7 @@ class ImportViewModel extends ChangeNotifier{
       }).toList();
 
       _cursistas = mapped;
+      _tableData = mapped.map((e) => e.toMap().values.map((v) => v.toString()).toList()).toList();
       return CsvImportStatus.success;
     } catch (e){
       _errorMessage = e.toString();
