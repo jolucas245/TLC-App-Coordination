@@ -1,9 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:go_transitions/go_transitions.dart';
 import 'package:tlc/app/views/coordination/coordination_view.dart';
-import 'package:tlc/app/views/settings/setings_view.dart';
+import 'package:tlc/app/views/settings/settings_view.dart';
 
-import '../models/cursista_model.dart';
 import '../views/auth/auth_view.dart';
 import '../views/home/home_view.dart';
 import '../views/import/import_view.dart';
@@ -38,9 +37,10 @@ class AppRoutes {
       ),
       GoRoute(
         path: "/preview",
+        pageBuilder: GoTransitions.slide.toTop.call,
         builder: (context, state) {
-          final cursistas = state.extra as List<CursistaModel>?;
-          return PreviewDataView(cursistas: cursistas ?? []);
+          final cursistas = state.extra as List<List<String>>?;
+          return PreviewDataView(tableData: cursistas ?? []);
         },
         name: "PreviewDataView"
       ),

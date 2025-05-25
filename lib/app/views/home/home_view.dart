@@ -4,6 +4,8 @@ import 'package:tlc/app/global/custom_scaffold.dart';
 import 'package:tlc/app/viewmodels/home_view_model.dart';
 import 'package:tlc/app/views/home/widgets/search_widget.dart';
 
+import 'widgets/cursista_card_widget.dart';
+
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
@@ -59,7 +61,19 @@ class HomeView extends StatelessWidget {
                 }
               ),
             ),
-            
+            CursistaCardWidget(
+              name: "Chico Moelas",
+              address: "Rua da Fidelidade, nº 69",
+              phone: "(35) 9 9981-9191",
+              isCheck: false,
+            ),
+            SizedBox(height: 1,),
+            CursistaCardWidget(
+              name: "Luisa Sonsa",
+              address: "Rua do Whindersson, nº 0",
+              phone: "(35) 9 9919-9191",
+              isCheck: true,
+            )
           ],
         ),
       ),

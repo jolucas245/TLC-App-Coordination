@@ -39,7 +39,7 @@ class CursistaModel {
     return CursistaModel(
       nomeCompleto: map['Nome completo sem abreviações:'] ?? '',
       dataNascimento: map['Data de nascimento:'] ?? '',
-      telefone: map['Número de telefone: (Ex: 35 9 9999-9999)'] ?? '',
+      telefone: map['Número de telefone:'] ?? '',
       enderecoResidencial: map['Endereço residencial completo:'] ?? '',
       cidade: map['Cidade:'] ?? '',
       nomeMae: map['Nome da mãe completo:'] ?? '',
